@@ -179,6 +179,28 @@
   .hero .btn-outline{border-color:var(--deep-line); color:var(--cream);}
   .hero .btn-outline:hover{border-color:var(--cream); background:rgba(238,246,250,0.06);}
 
+  /* ---------- Countdown ---------- */
+  .countdown{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:40px;}
+  .countdown .cd-box{min-width:92px; padding:18px 14px; text-align:center; border-radius:14px;}
+  .countdown .cd-num{
+    font-family:'Fraunces',serif; font-weight:600; font-size:clamp(28px,4.2vw,38px); line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .countdown .cd-lab{margin-top:8px; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase;}
+  .countdown .cd-live{font-family:'Fraunces',serif; font-style:italic; font-size:20px; padding:6px 4px;}
+  .countdown--dark .cd-box{background:rgba(238,246,250,0.06); border:1px solid var(--deep-line);}
+  .countdown--dark .cd-num{color:var(--cream);}
+  .countdown--dark .cd-lab{color:var(--cream-soft);}
+  .countdown--dark .cd-live{color:var(--ice);}
+  .countdown--light .cd-box{background:var(--paper); border:1px solid var(--line); box-shadow:0 1px 2px rgba(13,39,57,0.05);}
+  .countdown--light .cd-num{color:var(--deep);}
+  .countdown--light .cd-lab{color:var(--steel);}
+  .countdown--light .cd-live{color:var(--deep);}
+  @media (max-width:560px){
+    .countdown{gap:8px;}
+    .countdown .cd-box{min-width:66px; padding:12px 6px;}
+  }
+
   /* ---------- Letter / Invitation ---------- */
   .letter{background:var(--paper);}
   .letter-grid{display:grid; grid-template-columns:1fr; gap:48px;}
@@ -402,6 +424,13 @@
     <div class="hero-actions">
       <a class="btn btn-primary js-register" href="#register">Reserve Your Seat</a>
       <a class="btn btn-outline" href="#invitation">Read the Invitation</a>
+    </div>
+
+    <div class="countdown countdown--dark js-countdown" aria-live="polite">
+      <div class="cd-box"><div class="cd-num js-cd-days">&ndash;&ndash;</div><div class="cd-lab">Days</div></div>
+      <div class="cd-box"><div class="cd-num js-cd-hours">&ndash;&ndash;</div><div class="cd-lab">Hours</div></div>
+      <div class="cd-box"><div class="cd-num js-cd-minutes">&ndash;&ndash;</div><div class="cd-lab">Minutes</div></div>
+      <div class="cd-box"><div class="cd-num js-cd-seconds">&ndash;&ndash;</div><div class="cd-lab">Seconds</div></div>
     </div>
   </div>
 </header>
@@ -710,6 +739,14 @@
       <h2>Come. Let's take the journey home.</h2>
       <span class="accent-line">From dysfunction to wholeness.</span>
       <div><a class="btn btn-primary js-register" href="#register">Reserve Your Seat</a></div>
+
+      <div class="countdown countdown--light js-countdown" aria-live="polite" style="margin-top:34px;">
+        <div class="cd-box"><div class="cd-num js-cd-days">&ndash;&ndash;</div><div class="cd-lab">Days</div></div>
+        <div class="cd-box"><div class="cd-num js-cd-hours">&ndash;&ndash;</div><div class="cd-lab">Hours</div></div>
+        <div class="cd-box"><div class="cd-num js-cd-minutes">&ndash;&ndash;</div><div class="cd-lab">Minutes</div></div>
+        <div class="cd-box"><div class="cd-num js-cd-seconds">&ndash;&ndash;</div><div class="cd-lab">Seconds</div></div>
+      </div>
+
       <div class="fine">Seats are limited &middot; register in under a minute</div>
       <div class="fine" style="margin-top:8px;">Follow along <a href="https://www.instagram.com/exhale_livenow/" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600;">@exhale_livenow</a> on Instagram</div>
     </div>
@@ -788,6 +825,36 @@
           navToggle.setAttribute('aria-expanded', 'false');
         });
       });
+    }
+
+    // Live countdown to Exhale 2026. Change EVENT_DATETIME if the exact start
+    // time is confirmed later &mdash; format is YYYY-MM-DDTHH:MM:SS+01:00 (Lagos/WAT).
+    var EVENT_DATETIME = "2026-10-24T09:00:00+01:00";
+    var countdownBlocks = document.querySelectorAll('.js-countdown');
+    if (countdownBlocks.length) {
+      var target = new Date(EVENT_DATETIME).getTime();
+      var pad = function(n){ return n < 10 ? '0' + n : '' + n; };
+      var cdTimer;
+      var tick = function(){
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          countdownBlocks.forEach(function(block){
+            block.innerHTML = '<div class="cd-live">We&rsquo;re here &mdash; see you at Exhale 2026.</div>';
+          });
+          if (cdTimer) clearInterval(cdTimer);
+          return;
+        }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        document.querySelectorAll('.js-cd-days').forEach(function(el){ el.textContent = d; });
+        document.querySelectorAll('.js-cd-hours').forEach(function(el){ el.textContent = pad(h); });
+        document.querySelectorAll('.js-cd-minutes').forEach(function(el){ el.textContent = pad(m); });
+        document.querySelectorAll('.js-cd-seconds').forEach(function(el){ el.textContent = pad(s); });
+      };
+      tick();
+      cdTimer = setInterval(tick, 1000);
     }
   });
 </script>
