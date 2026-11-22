@@ -373,9 +373,7 @@ const EndCard = ({f}) => {
         </div>
       </div>
       <div style={{position: 'absolute', top: 1520, left: 0, right: 0, textAlign: 'center', opacity: interpolate(t, [60, 70], [0, 1], CL)}}>
-        <div style={{fontFamily: SERIF, fontSize: 34, color: C.ink}}>3 thank-yous free · Plus ₦2,000 · Premium ₦5,000</div>
-        <div style={{...hand, fontSize: 52, marginTop: 10}}>pay once, not every month</div>
-        <Small style={{marginTop: 26, fontSize: 24}}>Link in bio</Small>
+        <Small style={{fontSize: 26}}>Link in bio</Small>
       </div>
     </AbsoluteFill>
   );
