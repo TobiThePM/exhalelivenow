@@ -1,0 +1,7 @@
+extends: existence
+message: "Straight quote/apostrophe — house style is curly (' ' \" \")."
+level: warning
+nonword: true
+tokens:
+  - '"'
+  - "'"

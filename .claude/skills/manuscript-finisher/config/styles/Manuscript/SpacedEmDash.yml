@@ -1,0 +1,8 @@
+extends: existence
+message: "Spaced em dash — house style is tight (word—word, no surrounding spaces)."
+level: warning
+nonword: true
+tokens:
+  - ' — '
+  - ' —'
+  - '— '
